@@ -55,6 +55,9 @@
             text-decoration: none;
             margin-top: 40px;
             display: none; /* Escondido por padrão */
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
         }
     </style>
 </head>
@@ -68,6 +71,7 @@
         <div class="message-box" id="welcomeMessage">Bem-vindo ao Totem de Triagem Autônoma</div>
         <div class="message-box" id="scaleInstruction">Por favor, suba na balança.</div>
         <div class="message-box" id="weightMessage">Seu peso é: <span id="weightValue">...</span> kg</div>
+        <div class="message-box" id="heartRateInstruction">Agora, por favor, coloque os dedos nos sensores de batimento cardíaco.</div>
         <div class="message-box" id="bpmMessage">Seu BPM está: <span id="bpmValue">...</span> bpm</div>
         
         <button class="next-step-button" id="nextStepButton">Próximo Passo</button>
@@ -82,6 +86,7 @@
         const scaleInstruction = document.getElementById('scaleInstruction');
         const weightMessage = document.getElementById('weightMessage');
         const nextStepButton = document.getElementById('nextStepButton');
+        const heartRateInstruction = document.getElementById('heartRateInstruction');
         const bpmMessage = document.getElementById('bpmMessage');
 
         // Lógica de fluxo e exibição das telas
@@ -104,7 +109,6 @@
                 showMessage(weightMessage);
 
                 // IMPORTANTE: Aqui você conectaria seu código de WebSocket para pegar o peso real
-                // Exemplo (valor fixo para demonstração):
                 document.getElementById('weightValue').textContent = '75';
                 
                 // 5. Mostra o botão para o próximo passo
@@ -113,20 +117,25 @@
                 }, 3000);
                 
             }, 16000); // 10 segundos após a instrução da balança
+        }
 
-            // Lógica para o botão "Próximo Passo"
-            nextStepButton.onclick = function() {
-                hideMessage(weightMessage);
-                nextStepButton.style.display = 'none';
-                
-                // 6. Mostra a mensagem do BPM
+        // Lógica para o botão "Próximo Passo"
+        nextStepButton.onclick = function() {
+            hideMessage(weightMessage);
+            nextStepButton.style.display = 'none';
+            
+            // NOVA ETAPA: Mostra a instrução de batimentos cardíacos
+            showMessage(heartRateInstruction, 5000); // 5 segundos para a instrução
+
+            // 6. Mostra a mensagem do BPM após a instrução
+            setTimeout(() => {
+                hideMessage(heartRateInstruction);
                 showMessage(bpmMessage);
 
                 // IMPORTANTE: Aqui você conectaria o código de WebSocket para pegar o BPM real
-                // Exemplo (valor fixo para demonstração):
                 document.getElementById('bpmValue').textContent = '80';
-            };
-        }
+            }, 6000); // 1 segundo após a instrução sumir
+        };
 
         // Adiciona a ação de clique ao botão de início
         startButton.onclick = startTriage;
