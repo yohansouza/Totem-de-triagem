@@ -40,21 +40,46 @@
         }
 
         .happy-face {
-            display: flex; /* Usamos flexbox para alinhar */
-            flex-direction: column; /* Alinha os olhos e a boca em coluna */
+            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
         }
         
         .eyes {
-            font-size: 100px; /* Tamanho dos olhos */
+            font-size: 100px;
             line-height: 0.8;
+            animation: blink 4s infinite; /* Aplica a animação de piscar */
         }
 
         .mouth {
-            font-size: 150px; /* Tamanho da boca */
-            line-height: 0.8; /* Diminui o espaço entre os olhos e a boca */
-            margin-top: -30px; /* Puxa a boca para cima */
+            font-size: 150px;
+            line-height: 0.8;
+            margin-top: -30px;
+            animation: pulse 2s infinite; /* Aplica a animação de pulsação */
+        }
+
+        /* Define a animação de Piscar */
+        @keyframes blink {
+            0%, 20%, 50%, 100% {
+                opacity: 1; /* Olhos visíveis */
+            }
+            10% {
+                opacity: 0; /* Olhos piscam (sumindo) */
+            }
+        }
+
+        /* Define a animação de Pulsação */
+        @keyframes pulse {
+            0% {
+                transform: scale(1); /* Tamanho normal */
+            }
+            50% {
+                transform: scale(1.2); /* Aumenta 20% do tamanho */
+            }
+            100% {
+                transform: scale(1); /* Volta ao tamanho normal */
+            }
         }
     </style>
 </head>
