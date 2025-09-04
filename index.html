@@ -49,37 +49,45 @@
         .eyes {
             font-size: 100px;
             line-height: 0.8;
-            animation: blink 4s infinite; /* Aplica a animação de piscar */
+            /* A animação de piscar foi removida */
         }
 
         .mouth {
             font-size: 150px;
             line-height: 0.8;
             margin-top: -30px;
-            animation: pulse 2s infinite; /* Aplica a animação de pulsação */
-        }
-
-        /* Define a animação de Piscar */
-        @keyframes blink {
-            0%, 20%, 50%, 100% {
-                opacity: 1; /* Olhos visíveis */
-            }
-            10% {
-                opacity: 0; /* Olhos piscam (sumindo) */
-            }
+            animation: pulse 2s infinite; /* A animação de pulsação continua */
         }
 
         /* Define a animação de Pulsação */
         @keyframes pulse {
             0% {
-                transform: scale(1); /* Tamanho normal */
+                transform: scale(1);
             }
             50% {
-                transform: scale(1.2); /* Aumenta 20% do tamanho */
+                transform: scale(1.2);
             }
             100% {
-                transform: scale(1); /* Volta ao tamanho normal */
+                transform: scale(1);
             }
+        }
+        
+        .start-button {
+            padding: 15px 30px;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            background-color: #00bcd4; /* Cor ciano */
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 40px; /* Espaço entre a carinha e o botão */
+            transition: background-color 0.3s ease;
+        }
+
+        .start-button:hover {
+            background-color: #008c9e; /* Cor mais escura no hover */
         }
     </style>
 </head>
@@ -93,6 +101,8 @@
             <div class="eyes">. .</div>
             <div class="mouth">‿</div>
         </div>
+        
+        <a href="#" class="start-button">Iniciar Triagem</a>
     </div>
 </body>
 </html>
