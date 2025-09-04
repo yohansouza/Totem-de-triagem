@@ -12,9 +12,9 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
+            min-height: 100vh; /* Ocupa toda a altura da tela */
             text-align: center;
-            background-color: #f0f0f0; /* Cor de fundo suave */
+            background-color: white; /* Fundo branco e limpo */
         }
 
         .header-border {
@@ -25,37 +25,25 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            position: absolute;
+            position: absolute; /* Para fixar a borda no topo */
             top: 0;
             left: 0;
         }
 
-        .main-content {
+        .content {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            flex-grow: 1; /* Para centralizar o conteúdo no meio */
+            flex-grow: 1; /* Para centralizar o conteúdo verticalmente */
             width: 100%;
         }
 
         .happy-face {
-            font-size: 150px; /* Tamanho da carinha */
-            line-height: 1;
-            margin-top: 50px; /* Para dar espaço do topo */
-        }
-
-        .eyes::before {
-            content: '.';
-        }
-
-        .eyes::after {
-            content: '.';
-        }
-
-        .mouth::before {
-            content: '‿';
-            font-size: 100px;
+            font-size: 150px; /* Tamanho grande para a carinha */
+            line-height: 1; /* Para juntar o texto */
+            color: #333; /* Cor escura para o texto */
+            transform: translateY(-25px); /* Ajuste para centralizar perfeitamente */
         }
     </style>
 </head>
@@ -64,10 +52,11 @@
         <h2>Totem de triagem Autônoma</h2>
     </div>
 
-    <div class="main-content">
+    <div class="content">
         <div class="happy-face">
-            <span class="eyes"></span>
-            <span class="mouth"></span>
+            <span style="font-size: 100px;">.</span>
+            <span style="font-size: 100px;">.</span><br>
+            <span style="font-size: 150px; transform: scaleX(1.5);">‿</span>
         </div>
     </div>
 </body>
