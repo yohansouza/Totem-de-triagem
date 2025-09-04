@@ -3,106 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Totem de triagem Autônoma</title>
+    <title>Totem de Triagem Autônoma</title>
     <style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
+            height: 100vh;
+            background-color: #f0f0f0; /* Fundo cinza limpo */
             text-align: center;
-            background-color: white;
-        }
-
-        .header-border {
-            width: 100%;
-            height: 50px;
-            background-color: #00bcd4;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
-        .content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            flex-grow: 1;
-            width: 100%;
-        }
-
-        .happy-face {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            color: #333;
         }
         
-        .eyes {
-            font-size: 100px;
-            line-height: 0.8;
-            /* A animação de piscar foi removida */
-        }
-
-        .mouth {
-            font-size: 150px;
-            line-height: 0.8;
-            margin-top: -30px;
-            animation: pulse 2s infinite; /* A animação de pulsação continua */
-        }
-
-        /* Define a animação de Pulsação */
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.2);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-        
+        /* Estilos do botão de início */
         .start-button {
-            padding: 15px 30px;
-            font-size: 24px;
+            padding: 20px 40px;
+            font-size: 28px;
             font-weight: bold;
             color: white;
-            background-color: #00bcd4; /* Cor ciano */
+            background-color: #00bcd4;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .start-button:hover {
+            background-color: #008c9e;
+        }
+
+        /* Estilos dos textos das etapas */
+        .message-box {
+            font-size: 32px;
+            font-weight: bold;
+            display: none; /* Escondido por padrão */
+            opacity: 0; /* Para o efeito de fade-in */
+            transition: opacity 1s ease-in-out;
+        }
+        
+        .next-step-button {
+            padding: 15px 30px;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            background-color: #00bcd4;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             text-decoration: none;
-            margin-top: 40px; /* Espaço entre a carinha e o botão */
-            transition: background-color 0.3s ease;
-        }
-
-        .start-button:hover {
-            background-color: #008c9e; /* Cor mais escura no hover */
+            margin-top: 40px;
+            display: none; /* Escondido por padrão */
         }
     </style>
 </head>
 <body>
-    <div class="header-border">
-        <h2>Totem de triagem Autônoma</h2>
+
+    <div id="start-screen">
+        <button class="start-button" id="startButton">Começar triagem</button>
     </div>
 
-    <div class="content">
-        <div class="happy-face">
-            <div class="eyes">. .</div>
-            <div class="mouth">‿</div>
-        </div>
+    <div id="triage-screens" style="display: none;">
+        <div class="message-box" id="welcomeMessage">Bem-vindo ao Totem de Triagem Autônoma</div>
+        <div class="message-box" id="scaleInstruction">Por favor, suba na balança.</div>
+        <div class="message-box" id="weightMessage">Seu peso é: <span id="weightValue">...</span> kg</div>
+        <div class="message-box" id="bpmMessage">Seu BPM está: <span id="bpmValue">...</span> bpm</div>
         
-        <a href="#" class="start-button">Iniciar Triagem</a>
+        <button class="next-step-button" id="nextStepButton">Próximo Passo</button>
     </div>
+
+    <script>
+        // Seleciona os elementos do HTML
+        const startScreen = document.getElementById('start-screen');
+        const triageScreens = document.getElementById('triage-screens');
+        const startButton = document.getElementById('startButton');
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        const scaleInstruction = document.getElementById('scaleInstruction');
+        const weightMessage = document.getElementById('weightMessage');
+        const nextStepButton = document.getElementById('nextStepButton');
+        const bpmMessage = document.getElementById('bpmMessage');
+
+        // Lógica de fluxo e exibição das telas
+        function startTriage() {
+            // 1. Esconde a tela inicial e mostra a tela de triagem
+            startScreen.style.display = 'none';
+            triageScreens.style.display = 'block';
+
+            // 2. Mostra a mensagem de boas-vindas e depois esconde
+            showMessage(welcomeMessage, 5000); // 5 segundos
+            
+            // 3. Mostra a instrução da balança
+            setTimeout(() => {
+                showMessage(scaleInstruction);
+            }, 6000); // Aparece 1 segundo após o welcome sumir
+
+            // 4. Mostra o peso após 10 segundos
+            setTimeout(() => {
+                hideMessage(scaleInstruction);
+                showMessage(weightMessage);
+
+                // IMPORTANTE: Aqui você conectaria seu código de WebSocket para pegar o peso real
+                // Exemplo (valor fixo para demonstração):
+                document.getElementById('weightValue').textContent = '75';
+                
+                // 5. Mostra o botão para o próximo passo
+                setTimeout(() => {
+                    nextStepButton.style.display = 'block';
+                }, 3000);
+                
+            }, 16000); // 10 segundos após a instrução da balança
+
+            // Lógica para o botão "Próximo Passo"
+            nextStepButton.onclick = function() {
+                hideMessage(weightMessage);
+                nextStepButton.style.display = 'none';
+                
+                // 6. Mostra a mensagem do BPM
+                showMessage(bpmMessage);
+
+                // IMPORTANTE: Aqui você conectaria o código de WebSocket para pegar o BPM real
+                // Exemplo (valor fixo para demonstração):
+                document.getElementById('bpmValue').textContent = '80';
+            };
+        }
+
+        // Adiciona a ação de clique ao botão de início
+        startButton.onclick = startTriage;
+
+        // Funções auxiliares para mostrar/esconder mensagens com efeito
+        function showMessage(element, duration) {
+            element.style.display = 'block';
+            setTimeout(() => {
+                element.style.opacity = '1';
+            }, 50);
+            if (duration) {
+                setTimeout(() => {
+                    hideMessage(element);
+                }, duration);
+            }
+        }
+        
+        function hideMessage(element) {
+            element.style.opacity = '0';
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 1000);
+        }
+    </script>
 </body>
 </html>
