@@ -3,54 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Totem de Triagem</title>
+    <title>Totem de triagem Autônoma</title>
     <style>
         body {
             margin: 0;
-            height: 100vh;
-            background-color: #ffffff; /* fundo branco */
+            font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            font-family: Arial, sans-serif;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            background-color: #f0f0f0; /* Cor de fundo suave */
         }
 
-        /* Borda azul ciano no topo */
-        header {
+        .header-border {
             width: 100%;
-            height: 20px;
-            background-color: #00ffff;
+            height: 50px; /* Altura da borda superior */
+            background-color: #00bcd4; /* Ciano */
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: absolute;
             top: 0;
             left: 0;
         }
 
-        /* Carinha centralizada */
-        .smiley {
-            font-size: 10em; /* grande e centralizada */
+        .main-content {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            animation: standup 2s infinite alternate, blink 4s infinite;
+            justify-content: center;
+            flex-grow: 1; /* Para centralizar o conteúdo no meio */
+            width: 100%;
         }
 
-        /* Animação de "ficar de pé" */
-        @keyframes standup {
-            0% { transform: rotate(-10deg); }
-            50% { transform: rotate(10deg); }
-            100% { transform: rotate(0deg); }
+        .happy-face {
+            font-size: 150px; /* Tamanho da carinha */
+            line-height: 1;
+            margin-top: 50px; /* Para dar espaço do topo */
         }
 
-        /* Animação de piscar (apenas olhos fechando) */
-        @keyframes blink {
-            0%, 90%, 100% { content: "😊"; }
-            95% { content: "😑"; }
+        .eyes::before {
+            content: '.';
+        }
+
+        .eyes::after {
+            content: '.';
+        }
+
+        .mouth::before {
+            content: '‿';
+            font-size: 100px;
         }
     </style>
 </head>
 <body>
-    <header></header>
-    <div class="smiley">😊</div>
+    <div class="header-border">
+        <h2>Totem de triagem Autônoma</h2>
+    </div>
+
+    <div class="main-content">
+        <div class="happy-face">
+            <span class="eyes"></span>
+            <span class="mouth"></span>
+        </div>
+    </div>
 </body>
 </html>
