@@ -1,164 +1,51 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Totem de Triagem Autônoma</title>
+    <title>Página de Início</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #f0f0f0; /* Fundo cinza limpo */
-            text-align: center;
-            color: #333;
-        }
-        
-        /* Estilos do botão de início */
-        .start-button {
-            padding: 20px 40px;
-            font-size: 28px;
-            font-weight: bold;
-            color: white;
-            background-color: #00bcd4;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .start-button:hover {
-            background-color: #008c9e;
-        }
-
-        /* Estilos dos textos das etapas */
-        .message-box {
-            font-size: 32px;
-            font-weight: bold;
-            display: none; /* Escondido por padrão */
-            opacity: 0; /* Para o efeito de fade-in */
-            transition: opacity 1s ease-in-out;
-        }
-        
-        .next-step-button {
-            padding: 15px 30px;
-            font-size: 20px;
-            font-weight: bold;
-            color: white;
-            background-color: #00bcd4;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            text-decoration: none;
-            margin-top: 40px;
-            display: none; /* Escondido por padrão */
-            position: absolute;
-            bottom: 40px;
-            right: 40px;
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            color: #1a202c;
         }
     </style>
 </head>
-<body>
+<body class="flex items-center justify-center min-h-screen p-4">
 
-    <div id="start-screen">
-        <button class="start-button" id="startButton">Começar triagem</button>
-    </div>
+    <div id="container" class="bg-white p-8 sm:p-12 rounded-2xl shadow-xl max-w-lg w-full text-center transform transition-all duration-300 scale-100">
+        <div id="start-screen" class="flex flex-col items-center justify-center">
+            <h1 class="text-3xl sm:text-4xl font-bold mb-6 text-gray-800">Seja bem-vindo!</h1>
+            <button id="startButton" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300">
+                Start
+            </button>
+        </div>
 
-    <div id="triage-screens" style="display: none;">
-        <div class="message-box" id="welcomeMessage">Bem-vindo ao Totem de Triagem Autônoma</div>
-        <div class="message-box" id="scaleInstruction">Por favor, suba na balança.</div>
-        <div class="message-box" id="weightMessage">Seu peso é: <span id="weightValue">...</span> kg</div>
-        <div class="message-box" id="heartRateInstruction">Agora, por favor, coloque os dedos nos sensores de batimento cardíaco.</div>
-        <div class="message-box" id="bpmMessage">Seu BPM está: <span id="bpmValue">...</span> bpm</div>
-        
-        <button class="next-step-button" id="nextStepButton">Próximo Passo</button>
+        <div id="message-screen" class="hidden flex-col items-center justify-center">
+            <h2 class="text-2xl sm:text-3xl font-semibold mb-6 text-gray-700">Mensagem</h2>
+            <p id="messageText" class="text-lg sm:text-xl text-gray-600 mb-8">Sua altura é de: ...</p>
+            <button onclick="window.location.reload()" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-gray-300">
+                Voltar
+            </button>
+        </div>
     </div>
 
     <script>
-        // Seleciona os elementos do HTML
-        const startScreen = document.getElementById('start-screen');
-        const triageScreens = document.getElementById('triage-screens');
-        const startButton = document.getElementById('startButton');
-        const welcomeMessage = document.getElementById('welcomeMessage');
-        const scaleInstruction = document.getElementById('scaleInstruction');
-        const weightMessage = document.getElementById('weightMessage');
-        const nextStepButton = document.getElementById('nextStepButton');
-        const heartRateInstruction = document.getElementById('heartRateInstruction');
-        const bpmMessage = document.getElementById('bpmMessage');
+        document.getElementById('startButton').addEventListener('click', () => {
+            const startScreen = document.getElementById('start-screen');
+            const messageScreen = document.getElementById('message-screen');
 
-        // Lógica de fluxo e exibição das telas
-        function startTriage() {
-            // 1. Esconde a tela inicial e mostra a tela de triagem
-            startScreen.style.display = 'none';
-            triageScreens.style.display = 'block';
+            // Hide the start screen
+            startScreen.classList.add('hidden');
+            startScreen.classList.remove('flex');
 
-            // 2. Mostra a mensagem de boas-vindas e depois esconde
-            showMessage(welcomeMessage, 5000); // 5 segundos
-            
-            // 3. Mostra a instrução da balança
-            setTimeout(() => {
-                showMessage(scaleInstruction);
-            }, 6000); // Aparece 1 segundo após o welcome sumir
-
-            // 4. Mostra o peso após 10 segundos
-            setTimeout(() => {
-                hideMessage(scaleInstruction);
-                showMessage(weightMessage);
-
-                // IMPORTANTE: Aqui você conectaria seu código de WebSocket para pegar o peso real
-                document.getElementById('weightValue').textContent = '75';
-                
-                // 5. Mostra o botão para o próximo passo
-                setTimeout(() => {
-                    nextStepButton.style.display = 'block';
-                }, 3000);
-                
-            }, 16000); // 10 segundos após a instrução da balança
-        }
-
-        // Lógica para o botão "Próximo Passo"
-        nextStepButton.onclick = function() {
-            hideMessage(weightMessage);
-            nextStepButton.style.display = 'none';
-            
-            // NOVA ETAPA: Mostra a instrução de batimentos cardíacos
-            showMessage(heartRateInstruction, 5000); // 5 segundos para a instrução
-
-            // 6. Mostra a mensagem do BPM após a instrução
-            setTimeout(() => {
-                hideMessage(heartRateInstruction);
-                showMessage(bpmMessage);
-
-                // IMPORTANTE: Aqui você conectaria o código de WebSocket para pegar o BPM real
-                document.getElementById('bpmValue').textContent = '80';
-            }, 6000); // 1 segundo após a instrução sumir
-        };
-
-        // Adiciona a ação de clique ao botão de início
-        startButton.onclick = startTriage;
-
-        // Funções auxiliares para mostrar/esconder mensagens com efeito
-        function showMessage(element, duration) {
-            element.style.display = 'block';
-            setTimeout(() => {
-                element.style.opacity = '1';
-            }, 50);
-            if (duration) {
-                setTimeout(() => {
-                    hideMessage(element);
-                }, duration);
-            }
-        }
-        
-        function hideMessage(element) {
-            element.style.opacity = '0';
-            setTimeout(() => {
-                element.style.display = 'none';
-            }, 1000);
-        }
+            // Show the message screen
+            messageScreen.classList.add('flex');
+            messageScreen.classList.remove('hidden');
+        });
     </script>
 </body>
 </html>
